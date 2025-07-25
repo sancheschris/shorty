@@ -32,3 +32,15 @@ func ShortenURL(c *gin.Context) {
 	shortURL := c.Request.Host + "/" + url.ShortCode
 	c.JSON(http.StatusOK, ShortenResponse{ShortURL: "http://" + shortURL})
 }
+
+func RedirectURL(c *gin.Context) {
+	code := c.Param("shortCode")
+
+	url, err := service.GetOriginalURL(code)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve URL"})
+		return
+	}
+
+	c.Redirect(http.StatusFound, url.OriginalURL)
+}

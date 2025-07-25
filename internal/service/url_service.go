@@ -22,3 +22,7 @@ func CreateShortURL(originalURL string) (*model.URL, error) {
 
 	return url, nil
 }
+
+func GetOriginalURL(code string) (*model.URL, error) {
+	return repository.GetURLByShortCode(code)
+}
